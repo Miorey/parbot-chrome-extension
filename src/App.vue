@@ -1,6 +1,8 @@
 <template>
   <div id="popup">
-    <h1>Website Info</h1>
+    <h1>
+      PARB<span class="gradient-o">O</span>T info
+    </h1>
     <p v-if="loading">Loading...</p>
     <div v-if="error" class="error">{{ error }}</div>
     <div v-else-if="websiteInfo">
@@ -55,7 +57,26 @@ export default {
 </script>
 
 <style>
-#error {
-  color: red;
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.gradient-o {
+  background: linear-gradient(
+      45deg,
+      #1294ee,
+      #37fff8,
+      #84e349,
+      #d8f767,
+      #fc8a01,
+      #fe1a38,
+      #fb2647,
+      #fd415c
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 </style>
