@@ -11,6 +11,9 @@
       <p><strong>Website:</strong> <a :href="websiteInfo.website" target="_blank">{{ websiteInfo.website }}</a></p>
       <p><strong>Airtable ID:</strong> {{ websiteInfo.airtable_id }}</p>
     </div>
+    <pre>
+      {{ response }}
+    </pre>
     <button @click="fetchWebsiteInfo">Refresh</button>
   </div>
 </template>
@@ -22,6 +25,7 @@ export default {
       loading: false,
       error: null,
       websiteInfo: null,
+      response: null,
     };
   },
   methods: {
@@ -29,20 +33,38 @@ export default {
       this.loading = true;
       this.error = null;
       this.websiteInfo = null;
+      this.response = null;
 
       // Get the active tab's URL
       chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
         const currentTab = tabs[0];
         const url = currentTab.url;
+        console.log(`chrome.tabs.query url`, url);
 
         chrome.runtime.sendMessage(
             {type: 'GET_WEBSITE_INFO', website: url},
             (response) => {
+              if (chrome.runtime.lastError) {
+                console.error("chrome.runtime.lastError:", chrome.runtime.lastError.message);
+                debugger;
+                return;
+              }
+              console.log("YOLOOOOOO");
+              debugger;
               this.loading = false;
+              console.log("chrome.runtime.sendMessage response", response);
+              this.response = response;
+
               if (response.success) {
+                debugger;
                 this.websiteInfo = response.data;
+              } else if (response.status === 404) {
+                debugger;
+                this.error = 'Company not found.';
+                console.error(response.error);
               } else {
-                this.error = 'Failed to fetch website info.';
+                debugger;
+                this.error = 'Unhandled error please contact the Parbot responsible.';
                 console.error(response.error);
               }
             }

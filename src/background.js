@@ -1,3 +1,17 @@
+
+// Query the active tab as a fallback
+const setErrorIcon = () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs && tabs.length > 0) {
+            const tabId = tabs[0].id; // Active tab ID
+            console.error('Fallback tabId:', tabId);
+            chrome.action.setIcon({ path: "icons/icon-error.png", tabId });
+        } else {
+            console.error("No active tab found for fallback.");
+        }
+    });
+};
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'GET_WEBSITE_INFO') {
         // Extract tab ID from sender.tab or query active tab
@@ -33,25 +47,45 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     .then((response) => {
                         console.log("Response status:", response.ok);
                         if (response.ok) {
+                            console.log("---> OK")
                             chrome.action.setIcon({ path: 'icons/icon-16.png', tabId });
-                            return response.json();
-                        } else if (response.status === 404) {
-                            chrome.action.setIcon({ path: 'icons/icon-not-found.png', tabId });
-                            throw new Error('Info not found');
-                        } else {
-                            chrome.action.setIcon({ path: 'icons/icon-error.png', tabId });
-                            throw new Error(`Error ${response.status}`);
+                            return response.json().then((data) => ({
+                                status: response.status,
+                                success: true,
+                                data,
+                            }));
                         }
+
+                        console.log("---> NOT OK")
+                        let error;
+
+                        if (response.status === 404) {
+                            console.log("icons/icon-not-found.png")
+                            chrome.action.setIcon({ path: "icons/icon-not-found.png", tabId: tabId });
+                            error = "Info not found";
+                        } else {
+                            chrome.action.setIcon({ path: "icons/icon-error.png", tabId: tabId });
+                            console.log("icons/icon-error.png")
+                            error = `Unhandled error: ${response.status}`;
+                        }
+                        return {
+                            status: response.status,
+                            success: false,
+                            error,
+                        };
                     })
                     .then((data) => {
-                        console.log('API Data:', data);
-                        sendResponse({ success: true, data });
+                        sendResponse(data);
+                    })
+                    .catch((error) => {
+                        if (tabId) {
+                            chrome.action.setIcon({ path: "icons/icon-error.png", tabId: tabId});
+                        } else {
+                            setErrorIcon();
+                        }
+                        sendResponse({ status: 500, success: false, error: error.message });
                     });
             })
-            .catch((error) => {
-                console.error('Error:', error.message);
-                sendResponse({ success: false, error: error.message });
-            });
 
         return true; // Indicates asynchronous response
     }
