@@ -5,15 +5,60 @@
     </h1>
     <p v-if="loading">Loading...</p>
     <div v-if="error" class="error">{{ error }}</div>
-    <div v-else-if="websiteInfo">
-      <p><strong>Name:</strong> {{ websiteInfo.name }}</p>
-      <p><strong>Domain:</strong> {{ websiteInfo.domain }}</p>
-      <p><strong>Website:</strong> <a :href="websiteInfo.website" target="_blank">{{ websiteInfo.website }}</a></p>
-      <p><strong>Airtable ID:</strong> {{ websiteInfo.airtable_id }}</p>
+    <div v-if="websiteInfo">
+      <p v-if="websiteInfo.id"><strong>Id:</strong> {{ websiteInfo.id }}</p>
+      <p v-if="websiteInfo.name"><strong>Company:</strong> {{ websiteInfo.name }}</p>
+      <p v-if="websiteInfo.website">
+        <strong>Website:</strong> 🌐
+        <a :href="websiteInfo.website" target="_blank">Visit</a>
+      </p>
+      <p v-if="websiteInfo.airtable_url">
+        <strong>Airtable URL:</strong> 🌐
+        <a :href="websiteInfo.airtable_url" target="_blank">Visit</a>
+      </p>
+      <p v-if="websiteInfo.year_founded"><strong>Year Founded:</strong> {{ websiteInfo.year_founded }}</p>
+      <p v-if="websiteInfo.number_of_employees">
+        <strong>Headcount:</strong> {{ websiteInfo.number_of_employees }}
+      </p>
+      <p v-if="websiteInfo.headcount_one_year_growth">
+        <strong>Headcount 1 Year Growth:</strong> {{ websiteInfo.headcount_one_year_growth / 100 }}
+      </p>
+      <p v-if="websiteInfo.headcount_six_months_growth">
+        <strong>Headcount 6 Months Growth:</strong> {{ websiteInfo.headcount_six_months_growth / 100 }}
+      </p>
+      <p v-if="websiteInfo.headcount_three_months_growth">
+        <strong>Headcount 3 Months Growth:</strong> {{ websiteInfo.headcount_three_months_growth / 100 }}
+      </p>
+      <p v-if="websiteInfo.linkedin_url">
+        <strong>Linkedin URL:</strong> 🌐
+        <a :href="websiteInfo.linkedin_url" target="_blank">Visit</a>
+      </p>
+      <p v-if="websiteInfo.last_round_stage">
+        <strong>Last Round Stage:</strong> {{ websiteInfo.last_round_stage }}
+      </p>
+      <p v-if="websiteInfo.total_amount_raised">
+        <strong>Total Amount Raised:</strong> {{ websiteInfo.total_amount_raised }}
+      </p>
+      <p v-if="websiteInfo.industry"><strong>Industry:</strong> {{ websiteInfo.industry }}</p>
+      <p v-if="websiteInfo.last_round_amount">
+        <strong>Last Round Amount:</strong> {{ websiteInfo.last_round_amount }}
+      </p>
+      <p v-if="websiteInfo.last_round_date">
+        <strong>Last Round Date:</strong> {{ websiteInfo.last_round_date }}
+      </p>
+      <p v-if="websiteInfo.investors"><strong>Investors:</strong> {{ websiteInfo.investors }}</p>
+      <p v-if="websiteInfo.dealroom_url">
+        <strong>Dealroom URL:</strong> 🌐
+        <a :href="websiteInfo.dealroom_url" target="_blank">Visit</a>
+      </p>
     </div>
-    <pre>
-      {{ response }}
-    </pre>
+
+
+
+
+<!--    <pre>-->
+<!--      {{ response }}-->
+<!--    </pre>-->
     <button @click="fetchWebsiteInfo">Refresh</button>
   </div>
 </template>
