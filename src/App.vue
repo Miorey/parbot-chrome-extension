@@ -16,18 +16,22 @@
         <strong>Airtable URL:</strong> 🌐
         <a :href="websiteInfo.airtable_url" target="_blank">Visit</a>
       </p>
+      <p v-if="websiteInfo.dealroom_url">
+        <strong>Dealroom URL:</strong> 🌐
+        <a :href="websiteInfo.dealroom_url" target="_blank">Visit</a>
+      </p>
       <p v-if="websiteInfo.year_founded"><strong>Year Founded:</strong> {{ websiteInfo.year_founded }}</p>
       <p v-if="websiteInfo.number_of_employees">
         <strong>Headcount:</strong> {{ websiteInfo.number_of_employees }}
       </p>
       <p v-if="websiteInfo.headcount_one_year_growth">
-        <strong>Headcount 1 Year Growth:</strong> {{ websiteInfo.headcount_one_year_growth / 100 }}
+        <strong>Headcount 1 Year Growth:</strong> {{ websiteInfo.headcount_one_year_growth }}%
       </p>
       <p v-if="websiteInfo.headcount_six_months_growth">
-        <strong>Headcount 6 Months Growth:</strong> {{ websiteInfo.headcount_six_months_growth / 100 }}
+        <strong>Headcount 6 Months Growth:</strong> {{ websiteInfo.headcount_six_months_growth }}%
       </p>
       <p v-if="websiteInfo.headcount_three_months_growth">
-        <strong>Headcount 3 Months Growth:</strong> {{ websiteInfo.headcount_three_months_growth / 100 }}
+        <strong>Headcount 3 Months Growth:</strong> {{ websiteInfo.headcount_three_months_growth }}%
       </p>
       <p v-if="websiteInfo.linkedin_url">
         <strong>Linkedin URL:</strong> 🌐
@@ -37,20 +41,16 @@
         <strong>Last Round Stage:</strong> {{ websiteInfo.last_round_stage }}
       </p>
       <p v-if="websiteInfo.total_amount_raised">
-        <strong>Total Amount Raised:</strong> {{ websiteInfo.total_amount_raised }}
+        <strong>Total Amount Raised:</strong> {{ websiteInfo.total_amount_raised.toLocaleString('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }) }}
       </p>
       <p v-if="websiteInfo.industry"><strong>Industry:</strong> {{ websiteInfo.industry }}</p>
       <p v-if="websiteInfo.last_round_amount">
-        <strong>Last Round Amount:</strong> {{ websiteInfo.last_round_amount }}
+        <strong>Last Round Amount:</strong> {{ websiteInfo.last_round_amount.toLocaleString('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }) }}
       </p>
       <p v-if="websiteInfo.last_round_date">
         <strong>Last Round Date:</strong> {{ websiteInfo.last_round_date }}
       </p>
       <p v-if="websiteInfo.investors"><strong>Investors:</strong> {{ websiteInfo.investors }}</p>
-      <p v-if="websiteInfo.dealroom_url">
-        <strong>Dealroom URL:</strong> 🌐
-        <a :href="websiteInfo.dealroom_url" target="_blank">Visit</a>
-      </p>
     </div>
 
 
