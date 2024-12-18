@@ -26,7 +26,7 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
+  min-width: 300px;
   min-height: 100vh;
 }
 
@@ -36,6 +36,8 @@ h1 {
 }
 
 button {
+  margin: auto;
+  display: block;
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -55,14 +57,14 @@ button:focus-visible {
 }
 
 .card {
-  padding: 2em;
+  padding: 1em;
 }
 
 #app {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  text-align: left;
 }
 
 @media (prefers-color-scheme: light) {
