@@ -13,8 +13,6 @@ build-prod:
 	cp public/config.dev.json public/config.json
 	@echo "Building development artifacts..."
 	npm run build
-	@echo "Restoring original dist directory name..."
-	mv parbot_extension dist
 	@echo "Build process completed."
 
 clean:
