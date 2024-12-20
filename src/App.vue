@@ -8,6 +8,7 @@
     <div v-if="websiteInfo">
       <p v-if="websiteInfo.id"><strong>Id:</strong> {{ websiteInfo.id }}</p>
       <p v-if="websiteInfo.name"><strong>Company:</strong> {{ websiteInfo.name }}</p>
+      <p v-if="websiteInfo.country"><strong>Company:</strong> {{ websiteInfo.country }}</p>
       <p v-if="websiteInfo.airtable_url">
         <strong>Airtable URL:</strong> 🌐
         <a :href="websiteInfo.airtable_url" target="_blank">Visit</a>
@@ -46,7 +47,13 @@
       <p v-if="websiteInfo.last_round_date">
         <strong>Last Round Date:</strong> {{ websiteInfo.last_round_date }}
       </p>
-      <p v-if="websiteInfo.investors"><strong>Investors:</strong> {{ websiteInfo.investors }}</p>
+      <div>
+        <!-- Other website information -->
+        <p v-if="websiteInfo.investors_2 && websiteInfo.investors_2.length > 0" class="investors">
+          <strong>Investors :</strong>
+        </p>
+        <investors-tag v-if="websiteInfo.investors_2" :investors="websiteInfo.investors_2" />
+      </div>
       <p v-if="websiteInfo.salesforce_partner">
         <strong>Salesforce - Partner:</strong> {{ websiteInfo.salesforce_partner }}
       </p>
@@ -75,6 +82,7 @@
 
 <script>
 import {Chart} from 'chart.js/auto';
+import InvestorsTag from "./components/InvestorsTag.vue";
 
 /**
  * Calculates the number of employees sometime ago based on the current number of employees
@@ -100,6 +108,7 @@ function calculatePastEmployees(currentEmployees, percentageGrowth) {
 }
 
 export default {
+  components: {InvestorsTag},
   data() {
     return {
       loading: false,
@@ -269,6 +278,7 @@ h1 {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .gradient-o {
